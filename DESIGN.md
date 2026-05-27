@@ -216,7 +216,7 @@ Markdown は lint 検証用ソース・差分管理用に保持し、最終配�
 - **2027 年 4 月時点の AI 標準**: Stage 3 並列検証で「幹」最終決定（暫定: Gemini）。
 - **公式名義公開の可否**: チームみらい公式名義での公開が可能になるか、サポーター名義（または「演説決め隊」のようなチーム名）に留まるか。Stage 4 入口までに本部と擦り合わせる必要。Doc のフッター作成者表記に影響。
 - **ガイドライン側の更新追随**: `team-mirai-manual-lint/GUIDELINES.md` の `modified_time` を時々確認。
-- **Stage 3 並列検証の評価軸**: 出力品質 / Drive 連携の操作数 / サポーター導入しやすさ等のどれを重視するか、Stage 3 着手時に確定。
+- **Stage 3 並列検証の評価軸**: 素案を [docs/validation-criteria.md](./docs/validation-criteria.md) に作成済（Stage 3 着手時）。A〜G の評価項目を Gemini / Claude Code 両ランタイムで判定する形。ミッションオーナーレビューで確定する。
 - **engineer-tools の最終スコープ**: 現時点で確実なのは `schedule-build` のみ。他は Stage 3 並列検証で枝タスクが効く局面を確認してから判断。
 - **入試情報の運用時要否**: 選挙日程が確定した時点で党判断（本リポジトリには記録のみ保持）。
 - **司令塔シート・スケジュール検討シートのテンプレート Sheet 本体作成**: 規約は [templates/schedule-master.md](./templates/schedule-master.md) と [templates/schedule-detail.md](./templates/schedule-detail.md) に整理済。**Apps Script で自動生成可能**（[engineer-tools/scripts/](./engineer-tools/scripts/)）。ミッションオーナーがスクリプトを実行 → 生成 Sheet URL を templates/*.md 末尾に追記する流れ。Stage 2 後半〜Stage 3 着手前に実施。
