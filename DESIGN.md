@@ -222,7 +222,7 @@ Markdown は lint 検証用ソース・差分管理用に保持し、最終配�
 - **司令塔シート・スケジュール検討シートのテンプレート Sheet 本体作成**: 規約は [templates/schedule-master.md](./templates/schedule-master.md) と [templates/schedule-detail.md](./templates/schedule-detail.md) に整理済。**Apps Script で自動生成可能**（[engineer-tools/scripts/](./engineer-tools/scripts/)）。ミッションオーナーがスクリプトを実行 → 生成 Sheet URL を templates/*.md 末尾に追記する流れ。Stage 2 後半〜Stage 3 着手前に実施。
 - **司令塔シートのブラッシュアップ**: 衆 26 では運用低調。レビュー結果と AI 連携最適化を [templates/schedule-master.md](./templates/schedule-master.md) に反映済（A 案: 軽量化 + Schedule_Master のみ + メタデータブロック + AI 連携セル + ステータス enum 化）。Apps Script で構造ごと自動生成される。
 - **LINE オプチャ協力者募集フロー**: 知見のある方を呼んで詰める（候補者選定後にミッションオーナー経由で依頼）。`workflow.md` Phase 3 に枠だけ確保済。
-- **選挙カー無しの候補者向け運用記述**: `rules.md`「選挙カー使用方針」内に A（あり）/ B（なし）の 2 分岐構造でたたき台作成済（Stage 2 後半）。B セクションは要レビュー、経験者ヒアリング待ち（機材標準・標旗運用・道路使用許可閾値・搬入セットアップ時間・効果差等の論点を [knowledge/rules.md](./knowledge/rules.md) 末尾「レビュー観点」に明示）。
+- **選挙カー無しの候補者向け運用記述**: `rules.md`「選挙カー使用方針」内に A（あり）/ B（なし）の 2 分岐構造で大枠を作成（Stage 2 後半）。B セクションは **保留中**: ミッションオーナーがカーあり運用経験のみのため、機材詳細は本タスクのスコープ外。詳細は経験者ヒアリングで詰める（[knowledge/rules.md](./knowledge/rules.md) 末尾「経験者ヒアリング項目」参照）。
 
 ### 解決済
 
