@@ -81,7 +81,9 @@ strategy: A 案（軽量化、スケジュール検討シートと役割分担�
 
 ## テンプレ Sheet URL
 
-> Apps Script 実行後、ここに URL を貼る（候補者ごとに 1 ファイル）。
+- **テンプレ初版**（候補者名プレースホルダ）: <https://docs.google.com/spreadsheets/d/1njATHzGa_nLEDW9PRbhTyBfhia2YE_94ojAEot11LT4/edit>
+
+候補者ごとに 1 ファイルを生成する運用。本ファイルにはテンプレ初版 URL を記録、候補者選定後は別ファイルとして複製・運用する。
 
 ## 出典・更新履歴
 

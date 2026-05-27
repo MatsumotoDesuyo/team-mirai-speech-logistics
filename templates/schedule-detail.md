@@ -89,7 +89,9 @@ strategy: 衆 26 の体制は基本維持、ブラッシュアップ 5 点を反
 
 ## テンプレ Sheet URL
 
-> Apps Script 実行後、ここに URL を貼る（候補者ごとに 1 ファイル）。
+- **テンプレ初版**（候補者名プレースホルダ）: <https://docs.google.com/spreadsheets/d/1kSrubFBiPbey7nDpI_QR23LT1AK6q7a7Qkf_DU_Bpbw/edit>
+
+候補者ごとに 1 ファイルを生成する運用。本ファイルにはテンプレ初版 URL を記録、候補者選定後は別ファイルとして複製・運用する。
 
 ## 出典・更新履歴
 
