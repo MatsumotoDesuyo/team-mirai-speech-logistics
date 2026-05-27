@@ -4,18 +4,20 @@
  * 規約: team-mirai-speech-logistics/templates/schedule-master.md
  *
  * 実行手順:
- *   1. https://script.google.com/ で新規プロジェクトを作成
+ *   1. https://script.google.com/ で新規プロジェクトを作成（既存プロジェクトへの追加でも可）
  *   2. 本コードをコピペ
- *   3. CANDIDATE_NAME / ELECTION_TYPE を書き換える（後から Sheet 上でも編集可）
- *   4. main() を選択して「実行」（初回は権限承認）
- *   5. 実行ログから生成された Sheet URL を取得
+ *   3. createScheduleMaster() 冒頭の CANDIDATE_NAME / ELECTION_TYPE を書き換える
+ *   4. ツールバーで実行する関数を「createScheduleMaster」に選択して「実行」（初回は権限承認）
+ *   5. 実行ログ（Ctrl+Enter or メニュー「実行数」）から生成された Sheet URL を取得
  *   6. URL を templates/schedule-master.md 末尾「テンプレ Sheet URL」に追記
+ *
+ * 同一プロジェクト内に create-schedule-detail.gs と共存可能（関数名・定数衝突なし）。
  */
 
-const CANDIDATE_NAME = '【候補者名】';
-const ELECTION_TYPE = '【選挙種別】';
+function createScheduleMaster() {
+  const CANDIDATE_NAME = '【候補者名】';
+  const ELECTION_TYPE = '【選挙種別】';
 
-function main() {
   const ss = SpreadsheetApp.create(`司令塔シート_${CANDIDATE_NAME}`);
   const sheet = ss.getActiveSheet();
   sheet.setName('Schedule_Master');

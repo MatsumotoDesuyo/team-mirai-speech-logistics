@@ -4,39 +4,44 @@
  * 規約: team-mirai-speech-logistics/templates/schedule-detail.md
  *
  * 実行手順:
- *   1. https://script.google.com/ で新規プロジェクトを作成
+ *   1. https://script.google.com/ で新規プロジェクトを作成（既存プロジェクトへの追加でも可）
  *   2. 本コードをコピペ
- *   3. CANDIDATE_NAME を書き換える
- *   4. main() を選択して「実行」（初回は権限承認）
+ *   3. createScheduleDetail() 冒頭の CANDIDATE_NAME を書き換える
+ *   4. ツールバーで実行する関数を「createScheduleDetail」に選択して「実行」（初回は権限承認）
  *   5. 実行ログから生成された Sheet URL を取得
  *   6. URL を templates/schedule-detail.md 末尾「テンプレ Sheet URL」に追記
  *   7. 実運用では、サンプルタブ「YYYY-MM-DD_sample」を複製して日付・候補者名にリネームして使う
+ *
+ * 同一プロジェクト内に create-schedule-master.gs と共存可能（関数名・定数衝突なし）。
  */
 
-const CANDIDATE_NAME = '【候補者名】';
+function createScheduleDetail() {
+  const CANDIDATE_NAME = '【候補者名】';
 
-function main() {
   const ss = SpreadsheetApp.create(`スケジュール検討シート_${CANDIDATE_NAME}`);
 
   // ===== デフォルトタブを _README にリネーム =====
   const readme = ss.getActiveSheet();
   readme.setName('_README');
-  buildReadmeTab(readme);
+  buildReadmeTab_(readme);
 
   // ===== サンプル日別タブ =====
   const sample = ss.insertSheet('YYYY-MM-DD_sample');
-  buildDailyTab(sample);
+  buildDailyTab_(sample);
 
   // ===== 補助タブのサンプル =====
   const candList = ss.insertSheet('_候補リスト_sample');
-  buildCandidateListTab(candList);
+  buildCandidateListTab_(candList);
 
   // ===== 完了ログ =====
   Logger.log('スケジュール検討シートを作成しました: %s', ss.getUrl());
   Logger.log('次の手順: templates/schedule-detail.md 末尾「テンプレ Sheet URL」に上記 URL を追記');
 }
 
-function buildReadmeTab(sheet) {
+// 末尾アンダースコアは Apps Script の「プライベート関数」慣習。
+// ツールバーの実行関数一覧には出ない & 他ファイルとの衝突回避にもなる。
+
+function buildReadmeTab_(sheet) {
   sheet.getRange('A1').setValue('スケジュール検討シート テンプレート').setFontWeight('bold').setFontSize(14);
   sheet.getRange('A3').setValue('規約: templates/schedule-detail.md 参照');
 
@@ -67,7 +72,7 @@ function buildReadmeTab(sheet) {
   sheet.setColumnWidth(1, 600);
 }
 
-function buildDailyTab(sheet) {
+function buildDailyTab_(sheet) {
   // タブメタデータ (A1:B3)
   sheet.getRange('A1:B3').setValues([
     ['司令塔シート該当行 URL', ''],
@@ -105,7 +110,7 @@ function buildDailyTab(sheet) {
   sheet.setFrozenRows(5);
 }
 
-function buildCandidateListTab(sheet) {
+function buildCandidateListTab_(sheet) {
   sheet.getRange('A1').setValue('エリア別場所候補（補助タブ）').setFontWeight('bold').setFontSize(12);
   sheet.getRange('A3:E3').setValues([['エリア', '場所名', 'spot-base URL', '過去実績', '備考']])
     .setFontWeight('bold')
