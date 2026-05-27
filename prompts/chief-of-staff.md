@@ -1,23 +1,30 @@
 ---
 name: chief-of-staff
 purpose: 街頭演説ロジスティクス Phase 全体ガイド（Chief of Staff 役）
-runtime: チャットボット系（Gemini / ChatGPT / Claude.ai）が主、Claude Code でも実行可能
+runtime: Gemini（幹）／Claude Code（リポジトリベースで AI を走らせる場合の基準）
 origin: 衆 26（前回）Gemini Gem プロンプトを初版として取り込み
-status: 初版取り込み済（参院選・統一地方選向け改訂は Stage 3 で実施）
+status: 初版取り込み済（Gemini 幹方針での改訂は Stage 3 で実施）
 ---
 
 # chief-of-staff プロンプト
 
-街頭演説ロジスティクス全体（Phase 0〜3）の参謀役プロンプト。チャットボット系・Claude Code 双方で使えることを目指す（[DESIGN.md §3](../DESIGN.md) 「幹＋枝」方針）。
+街頭演説ロジスティクス全体（Phase 0〜3）の参謀役プロンプト。Gemini を幹、Claude Code を枝として使う（[DESIGN.md §3](../DESIGN.md) 参照）。
 
 ## 改訂方針（取り込み時メモ）
 
-衆 26 から参院選 / 統一地方選向けに改訂すべき箇所（自明なもの）:
+衆 26 から参院選・統一地方選向けに改訂すべき箇所:
+
+### 自明な改訂
 
 - 「衆議院選挙候補者（高山さとし）」→ 候補者名は **実行時パラメータ化**（プロンプト本体はテンプレ化、候補者名・選挙種別はユーザー側で差し込み）
-- ナレッジ参照を Google Docs 直リンクから **GitHub raw URL（本リポジトリ `knowledge/*.md`）** に変える（[DESIGN.md §8 却下案3](../DESIGN.md) 参照）
-- **mirai-speech-spot-base を Phase 2 の最初の参照先** として組み込む
-- 入試情報 URL の参照は `knowledge/entrance-exam-urls.md` 経由（年度更新運用）
+- **mirai-speech-spot-base を Phase 2 の最初の参照先** として組み込む。利用は UI 操作前提（API は使わない、[DESIGN.md §4](../DESIGN.md) 参照）
+- 「20:00 のマイク納め」「45 分演説」等の基本ルールは引き続き有効（変更があれば `knowledge/rules.md` 側で管理）
+
+### 判断保留・Stage 3 で検討
+
+- **ナレッジ参照の置き方**: 現状は Google Docs 直リンク。GitHub raw URL（本リポジトリ `knowledge/*.md`）への切り替えは原則正しい（[DESIGN.md §8 却下案3](../DESIGN.md)）。ただし **Gemini を幹に据えた以上、Drive ネイティブ参照の利便性も活かしたい**。最終形は GitHub raw URL を一次正本としつつ、Gemini 用に Drive Doc ミラーも持つハイブリッドを想定。Stage 3 で実装方針確定。
+- **入試チェック**: 衆 26 では必須だったが、4 月統一地方選では再現性が薄い。「リスクチェックの一例」として軽く言及するに留め、運用時の要否は選挙戦前の党判断に委ねる（[DESIGN.md §8 却下案5](../DESIGN.md)）。
+- **司令塔シートの構造**: 衆 26 のシート構造（Schedule_Master / Location_DB 等）を参院 / 統一地方選用に複製テンプレ化（[DESIGN.md §9](../DESIGN.md)）。プロンプトの参照箇所はテンプレ化後の名称に合わせる。
 
 実改訂は Stage 3 の並列検証と並行して行う。本ファイルは取り込み時点では衆 26 原文を保持し、改訂箇所は別 commit で履歴を残す。
 

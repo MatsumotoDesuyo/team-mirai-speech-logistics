@@ -13,43 +13,51 @@
 
 完成物はチームみらい「マニュアル作成ガイドライン」適合の Google Docs。lint チェックは [`team-mirai-manual-lint`](c:\Projects\team-mirai-manual-lint\) の Layer A / B にかける。
 
+完成マニュアルは **チームみらいサポーター活動のスタンダードとして共有される想定**。サポーター主導 × チームみらい本部の後ろ盾の体制で進める。
+
 ## 2. 制約（設計の前提）
 
 これらは外部条件であり、設計の自由度を規定する。
 
 1. **マニュアル読者の大半は非エンジニアのサポーター**。前編 2 ページに収まる範囲で初心者が Phase 0〜1 に着手できる必要がある。
-2. **公開はいち個人サポーター名義**。チームみらい組織名義での公開・配布権限なし。
+2. **位置付けはサポーター主導 + 本部後ろ盾**。チームみらい公式名義での公開可否は別途協議。本リポジトリの記述はこの前提で書く。
 3. **完成物の形式は Google Docs**。Markdown はソースとして本リポジトリで管理し、Doc は配布形態。
 4. **マニュアル準拠基準はチームみらい「マニュアル作成ガイドライン」**。lint プロジェクト側に正本キャッシュ。
 5. **AI 標準は 2027 年 4 月時点で再判断**。本リポジトリではプロンプトを正本管理し、ランタイム選択は後判断とする。
-6. **mirai-speech-spot-base の API 有無は未確認**（Stage 2 で確認）。
+6. **mirai-speech-spot-base は UI 操作前提**。API は存在するが本用途では使わない（§4 参照）。
 
-## 3. AI 経路の方針 — 「幹＋枝」
+## 3. AI 経路の方針 — 「Gemini を幹、Claude Code を枝」
 
-チャットボット系（Gemini / ChatGPT / Claude.ai）を **幹**、Claude Code を **枝** として記述する。両者を equal な並列記述にしない。
+### 採用
+
+- **幹: Gemini**（Google Drive 連携の容易さ）。サポーターの大半がこの経路を通る。
+- **枝: Claude Code**（リポジトリを clone してプロジェクト上で AI を走らせる経路の基準）。「リポジトリ持ち込みで AI を走らせられる人」なら他 AI でもフローを回せる前提で、Claude Code を代表として記述する。
+- マニュアル本文・プロンプト記述は equal な並列記述にしない（後述 §8 却下案1）。
 
 ### 判断根拠
 
-- **参入障壁が律速段階**: Claude Code は学習コストが重く、サポーター平均像に対して入口が狭すぎる。Gem 主軸だった前回より後退になる。
-- **ドメイン適合**: 演説場所決めは判断・対話・現地下調べが中心で、Claude Code のエッジが効きにくい。逆に「枝」タスク（入試日程一括突合・Sheets 自動更新・画像フォルダ整理）は Claude Code が圧勝。
-- **プロンプト本体を GitHub 正本管理** すれば、ランタイム選択は 2027 年 4 月時点で決められる。`team-mirai-manual-lint` の Layer B 配布が `.claude/skills/layer-b-lint/prompts/` 一元化で同じ思想（[lint DESIGN.md §4](c:\Projects\team-mirai-manual-lint\DESIGN.md)）。
+- **Gemini を幹に据える理由**: Google Workspace（Docs / Sheets / Drive）にネイティブで統合され、サポーターの作業基盤（衆 26 司令塔シート、ナレッジ Doc、写真 Drive 等が既に Google エコシステム）との接続コストが最小。
+- **Claude Code を枝の代表に据える理由**: リポジトリベースで AI を走らせる経路は学習コストが重く、サポーター母集団のごく一部しか通らない。その層は他 AI（Codex CLI 等）でも自分でフローを組める前提で、特定 AI を代表として書けば十分。Claude Code を選ぶのは lint プロジェクトとの整合（同じ運用、skill の流用余地）。
 
 ### 並列検証
 
-Stage 3 で並列検証を実施し、ship 時には幹を一本化する。検証結果は `docs/validation-log.md`（Stage 3 で作成）に残す。
+Stage 3 で Gemini と Claude Code の出力比較を行い、`docs/validation-log.md`（Stage 3 で作成）に残す。並列検証の評価軸は Stage 3 着手時に確定する（候補: 出力品質、Drive 連携の操作数、サポーターの導入しやすさ）。
 
-## 4. mirai-speech-spot-base の位置付け — 正本データベース
+## 4. mirai-speech-spot-base の位置付け — UI 操作前提の正本 DB
 
-前回（衆 26）のスケジュール検討シート・場所候補シートは複数並立だった。今期は [mirai-speech-spot-base](https://mirai-speech-spot-base.vercel.app/) を **正本 DB として昇格** させ、マニュアル全体がこれを前提に組まれる。
+[mirai-speech-spot-base](https://mirai-speech-spot-base.vercel.app/) を **正本 DB として昇格** させ、マニュアル全体がこれを前提に組まれる。
 
-- Phase 2 場所選定の **最初の参照先**: まず DB 内既存スポットを確認し、ぴったりなければ追加調査
-- 現場での運用: 新規スポットを発見したらその場で登録呼びかけ
-- 過去資産（衆 26 街頭演説スポット調査シート等）は段階的に DB へ取り込む
+### 利用方法は UI 操作のみ
 
-### 未決事項
+- Phase 2 場所選定の **最初の参照先**: サポーターが Web UI を開いて検索し、ぴったりなければ追加調査
+- 現場での運用: 新規スポットを発見したらその場で UI から登録呼びかけ
+- **API は使わない**: 場所選定には現場写真・Google Street View・周辺施設の確認など人間判断が必須。AI が苦手とする領域で、自動化で得る価値が小さい。
+- **将来検討**: アプリ側に本用途向け機能追加（バルク取り込み、フィルタ API 等）が提案された場合は再検討。
 
-- API / プログラム経由でのバルク取り込み可否（Stage 2 で確認）
-- 正本 DB 昇格後のモデレーション体制
+### 現時点で扱わない案件
+
+- 過去資産（衆 26 街頭演説スポット調査シート等）の DB 一括取り込み — 機能追加待ち
+- 正本 DB のモデレーション体制 — アプリ運用責任の所在は別途協議
 
 ## 5. ディレクトリ構成（計画）
 
@@ -61,67 +69,77 @@ team-mirai-speech-logistics/
 ├─ MANUAL.md                      ← マニュアル本体の Markdown ソース（lint 検証用）
 │                                   ※最終配布は Google Docs
 │
-├─ prompts/                       ← AI プロンプト正本（チャットボット・Claude Code 共通）
+├─ prompts/                       ← AI プロンプト正本（Gemini 主、Claude Code でも実行可能）
 │   ├─ chief-of-staff.md          ← 前回 Gem の改訂版（Phase 全体ガイド）
 │   ├─ phase1-timeline.md         ← タイムライン設計プロンプト
-│   ├─ phase2-location-research.md← 場所選定プロンプト
-│   ├─ phase2-risk-check.md       ← 入試・道交法・学習塾チェック
+│   ├─ phase2-location-research.md← 場所選定プロンプト（spot-base UI 操作前提）
 │   └─ phase3-announce.md         ← 告知文面作成
 │
-├─ knowledge/                     ← 判断基準（プロンプトが参照）
+├─ knowledge/                     ← 現役の判断基準（プロンプトが参照）
 │   ├─ rules.md                   ← 45 分演説／移動バッファ／20:00 マイク納め 等
-│   ├─ entrance-exam-urls.md      ← 入試情報 URL（地域・月別、年度ごとに更新）
 │   ├─ road-law-checklist.md     ← 道交法（駐車禁止／交差点 5 m／etc）
-│   └─ accessibility.md           ← 学習塾 100 m／病院・学校 静穏保持 等
+│   ├─ accessibility.md           ← 学習塾 100 m／病院・学校 静穏保持 等
+│   └─ past-cases/                ← 過去事例の記録（運用判断は別途）
+│       └─ entrance-exam-2025.md  ← 衆 26 で行った入試日程バッティング回避の実績記録
 │
 ├─ templates/                     ← Sheets / Drive 雛形リンク集
 │   ├─ schedule-master.md
 │   ├─ schedule-detail.md
 │   └─ photo-folder.md
 │
-├─ engineer-tools/                ← Claude Code 枝（オプション）
+├─ engineer-tools/                ← Claude Code 枝（オプション、Stage 3 後に再評価）
 │   ├─ README.md
 │   ├─ skills/
+│   │   └─ schedule-build/        ← Sheets 上のタイムライン構築自動化（現時点で唯一価値が確定）
 │   └─ scripts/
 │
 └─ docs/
     ├─ setup-for-supporters.md
     ├─ setup-for-engineers.md
-    └─ troubleshooting.md
+    ├─ troubleshooting.md
+    └─ validation-log.md          ← Stage 3 並列検証ログ
 ```
 
 **YAGNI 原則**: 各 Stage で必要になったディレクトリ・ファイルを順次作る。Stage 1 時点では本体雛形 + `prompts/chief-of-staff.md` の取り込みのみ。
+
+### Stage 1 からの変更点
+
+- `knowledge/entrance-exam-urls.md`（必須現役ルール）→ `knowledge/past-cases/entrance-exam-2025.md`（実績記録）に格下げ。理由: 入試時期バッティング回避は衆 26（2 月選挙）特有の施策で汎用性なし。運用時の要否は選挙戦前の党判断に委ねる。
+- `prompts/phase2-risk-check.md` を削除（入試チェックが必須でなくなったため独立プロンプトを持つ価値が薄い。リスクチェックは `phase2-location-research.md` に統合）。
+- `engineer-tools/skills/` から `exam-collision-check/`（入試突合）と `spot-bulk-import/`（spot-base 一括取り込み）を削除。前者は入試チェック非必須化、後者は spot-base が UI 操作前提のため不要。
 
 ## 6. Stage 分け
 
 | Stage | 内容 |
 |---|---|
 | **Stage 1** | 新リポジトリ初期化（README / DESIGN / CLAUDE.md 雛形、Gem プロンプト取り込み） |
-| **Stage 2** | 知識の構造化（`knowledge/` を埋める、mirai-speech-spot-base の API/機能確認） |
-| **Stage 3** | プロンプト分割と並列検証（チャットボット系と Claude Code 両方で実行・出力比較、`docs/validation-log.md` に残す） |
+| **Stage 2** | 知識の構造化（`knowledge/` 現役ルールを埋める、衆 26 ナレッジ Doc の分解配置） |
+| **Stage 3** | プロンプト分割と並列検証（Gemini と Claude Code で実行・出力比較、`docs/validation-log.md` に残す。並列検証評価軸を着手時に確定） |
 | **Stage 4** | マニュアル Doc 起こし（Google Docs に章構成案どおり記述、`team-mirai-manual-lint` の Layer A / B で適合確認） |
-| **Stage 5** | 試運転（参院選 2026 で実運用 or 模擬日程で wet test） |
+| **Stage 5** | 模擬日程での wet test（2026 年は参院選なし、実選挙での試運転機会がないため模擬で完成判定） |
 
 ## 7. 検証計画（完成判定）
 
-- [ ] `prompts/chief-of-staff.md` を Gemini / ChatGPT / Claude.ai のいずれかに貼って、模擬プロンプトに対し前回 Gem と同等以上のガイドが返る
-- [ ] 同じプロンプトを Claude Code で実行し、Drive MCP / WebFetch で入試 URL を実取得する動作確認
-- [ ] Phase 2 で mirai-speech-spot-base 既存スポット参照 →「ぴったりなければ追加調査」の動線が動く
+- [ ] `prompts/chief-of-staff.md` を Gemini に貼って、模擬プロンプトに対し前回 Gem と同等以上のガイドが返る
+- [ ] 同じプロンプトを Claude Code でも実行し、Drive MCP / WebFetch で動作確認
+- [ ] Phase 2 で spot-base UI を実際に操作して「既存スポット参照 → 不足分の追加調査」の動線がサポーター視点で迷わず動く
+- [ ] 過去事例（衆 26 入試対応等）が `knowledge/past-cases/` に記録されている
 - [ ] 完成マニュアル Doc を `team-mirai-manual-lint` の Layer A / B にかけて ERROR ゼロ
 - [ ] 第三者（非エンジニア支援者）に前編 2 ページを読んでもらい Phase 0〜1 着手可能か確認
+- [ ] Stage 5 模擬日程で前編 2 ページ → 実行 → 振り返りまでが回る
 
 ## 8. 却下案と理由
 
 将来の蒸し返し防止のため、却下した案とその理由を明示する。
 
-### 却下案1: チャットボット系と Claude Code を equal に並列記述
+### 却下案1: Gemini / ChatGPT / Claude.ai / Claude Code を equal に並列記述
 
 却下理由:
 
-- 参入障壁が律速段階。Claude Code を等価に出すと、サポーター平均像に対して入口が狭くなり、前回 Gem 主軸より後退する。
-- ドメイン（演説場所決め）が Claude Code のエッジを活かしにくく、equal 記述の根拠が弱い。
+- 参入障壁が律速段階。equal に出すと、サポーター平均像に対して「結局どれを使えばいいか」の判断負荷を増やす。
+- マニュアルの主導線は単一であるべき（並列はリスクチェック層など限定）。Gemini を幹に据え、リポジトリ持ち込み経路では Claude Code を代表とする方が記述が締まる。
 
-採用案（幹＋枝）は本ドキュメント §3 参照。
+採用案（§3）は Gemini 幹、Claude Code は枝の代表。
 
 ### 却下案2: マニュアル本体を本リポジトリの Markdown だけで配布
 
@@ -137,32 +155,59 @@ Markdown は lint 検証用ソース・差分管理用に保持し、最終配�
 
 却下理由:
 
-- Doc 直リンクはアクセス権限・URL の安定性が運用責任。個人サポーター運用では切れやすい。
-- GitHub raw URL（本リポジトリ `knowledge/*.md`）に切り替えれば、バージョン管理・差分追跡・複数 AI ランタイム共通参照が可能。
+- Doc 直リンクはアクセス権限・URL の安定性が運用責任。切れやすい。
+- GitHub raw URL（本リポジトリ `knowledge/*.md`）にすればバージョン管理・差分追跡・複数 AI ランタイム共通参照が可能。
+- 一方、Gemini を幹にする以上、Drive ネイティブ参照の利便性も活かしたい。**最終形は GitHub raw URL を一次正本としつつ、Gemini 用に Drive Doc ミラーも持つハイブリッド**を想定（Stage 3 で実装方針確定）。
 
-`prompts/chief-of-staff.md` 改訂時に GitHub raw URL 参照へ切り替える（Stage 3 で対応）。
+### 却下案4: mirai-speech-spot-base API 経由で場所選定を自動化
+
+却下理由:
+
+- 場所選定は現場写真・Google Street View・周辺施設の確認など人間判断が必須。AI が苦手とする領域で、自動化で得る価値が小さい。
+- API は存在するが本用途向けに設計されていない。無理に使うと、得るもの（数秒の時短）と失うもの（人間判断の混入余地）のバランスが悪い。
+- 将来、アプリ側に本用途向け機能追加が提案された場合は再検討（§4 末尾）。
+
+### 却下案5: 入試情報 URL を現役ナレッジに含める
+
+却下理由:
+
+- 入試時期バッティング回避は衆 26（2 月選挙）特有の施策で、4 月統一地方選では再現性が薄い。
+- 「現役ルール」に置くと、毎年度の URL 更新責任が発生し、運用負荷を生む。
+- ただし、過去にこういう施策を行った実績は記録価値あり → `knowledge/past-cases/entrance-exam-2025.md` に保存。運用時の要否は選挙戦前の党判断に委ねる。
 
 ## 9. 既存資産の引き継ぎ
 
 | 既存資産 | 扱い |
 |---|---|
 | 衆 26 司令塔シート | 構造再利用、参院 / 統一地方選用に複製テンプレ化 |
-| 衆 26 ナレッジ Doc | `knowledge/` 配下に分解配置 |
+| 衆 26 ナレッジ Doc | 現役ルール部分のみ `knowledge/` 配下に分解配置。入試 URL は `knowledge/past-cases/` 行き |
 | 衆 26 スケジュール検討シート | 列構造を `templates/schedule-detail.md` で規約化 |
 | 演説場所写真 Drive | 日付別フォルダ運用継承、命名規約のみ明文化 |
-| 前回の Gem プロンプト | `prompts/chief-of-staff.md` の初版として取り込み、参院選後の知見で改訂 |
-| mirai-speech-spot-base | **昇格して正本 DB 化**。マニュアル全体がこれ前提 |
+| 前回の Gem プロンプト | `prompts/chief-of-staff.md` の初版として取り込み、Gemini 幹方針で改訂 |
+| mirai-speech-spot-base | **UI 操作前提の正本 DB 化**。マニュアル全体がこれ前提（§4） |
+| 衆 26 入試対応の運用記録 | `knowledge/past-cases/entrance-exam-2025.md` に実績記録として保持 |
 
 ## 10. 未決事項
 
-- **mirai-speech-spot-base の API 有無**: バルク取り込み / プログラム経由投稿が可能か。Stage 2 で確認
-- **2027 年 4 月時点の AI 標準**: Stage 3 並列検証で「幹」最終決定
-- **アプリ運用責任**: 正本 DB 昇格後のモデレーション体制
-- **ガイドライン側の更新追随**: `team-mirai-manual-lint/GUIDELINES.md` の `modified_time` を時々確認
-- **公式採用の有無**: 個人サポーター非公式のままか、運用側と擦り合わせて準公式化を目指すか
+- **マニュアル想定読者の解像度の更なる詰め**: 「チームみらい全候補者陣営向けのスタンダード」と確定。固有候補者名はパラメータ扱い（プロンプトでは差し込み変数、マニュアル本文では「候補者」一般名詞）で記述する方針で進める。
+- **2027 年 4 月時点の AI 標準**: Stage 3 並列検証で「幹」最終決定（暫定: Gemini）。
+- **公式名義公開の可否**: チームみらい公式名義での公開が可能になるか、サポーター名義（または「演説決め隊」のようなチーム名）に留まるか。Stage 4 入口までに本部と擦り合わせる必要。Doc のフッター作成者表記に影響。
+- **ガイドライン側の更新追随**: `team-mirai-manual-lint/GUIDELINES.md` の `modified_time` を時々確認。
+- **Stage 3 並列検証の評価軸**: 出力品質 / Drive 連携の操作数 / サポーター導入しやすさ等のどれを重視するか、Stage 3 着手時に確定。
+- **engineer-tools の最終スコープ**: 現時点で確実なのは `schedule-build` のみ。他は Stage 3 並列検証で枝タスクが効く局面を確認してから判断。
+- **入試情報の運用時要否**: 選挙日程が確定した時点で党判断（本リポジトリには記録のみ保持）。
+
+### 解決済（Stage 1 後半判断）
+
+- AI 経路の幹: Gemini に確定（§3）
+- spot-base 扱い: UI 操作前提に確定（§4）
+- マニュアル位置付け: サポーター主導 × 本部後ろ盾、スタンダード共有想定に確定（§1, §2）
+- 入試情報の位置付け: 過去事例として記録化、現役ナレッジから外す（§5, §8 却下案5）
+- Stage 5 試運転の場: 模擬日程で wet test に確定（2026 参院選なし）
 
 ## 11. 直近の意思決定履歴（要点のみ）
 
-- リポジトリ初期化（Stage 1）— README / DESIGN / CLAUDE.md / `prompts/chief-of-staff.md` の 4 ファイル作成から開始。空ディレクトリ・placeholder は作らず、Stage が進むごとに足す方針。
+- リポジトリ初期化（Stage 1 前半）— README / DESIGN / CLAUDE.md / `prompts/chief-of-staff.md` の 4 ファイル作成から開始。空ディレクトリ・placeholder は作らず、Stage が進むごとに足す方針。
 - 親プロジェクト `team-mirai-manual-lint` とは独立した別リポジトリで開始。lint 側は読み込み専用とし、書き込まない。
 - 引き継ぎ文書 `c:\Projects\team-mirai-speech-logistics-handoff.md` を初期文脈の正本とする（リポジトリ外）。
+- Stage 1 後半判断（本コミット反映）— AI 経路の幹を Gemini に確定 / spot-base を UI 操作前提に確定 / マニュアル位置付けをサポーター主導 × 本部後ろ盾・スタンダード共有想定に確定 / 入試情報を過去事例化 / Stage 5 を模擬日程に確定。
