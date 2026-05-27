@@ -25,6 +25,7 @@
 4. **マニュアル準拠基準はチームみらい「マニュアル作成ガイドライン」**。lint プロジェクト側に正本キャッシュ。
 5. **AI 標準は 2027 年 4 月時点で再判断**。本リポジトリではプロンプトを正本管理し、ランタイム選択は後判断とする。
 6. **mirai-speech-spot-base は UI 操作前提**。API は存在するが本用途では使わない（§4 参照）。
+7. **候補者ごとに前提が異なる**: 演説時間・開始時刻・選挙カー有無・体力などは候補者個別。マニュアル記述は「衆 26 高山候補の値」を絶対視せず、候補者個別ルールと汎用ルールを分離する。
 
 ## 3. AI 経路の方針 — 「Gemini を幹、Claude Code を枝」
 
@@ -76,11 +77,13 @@ team-mirai-speech-logistics/
 │   └─ phase3-announce.md         ← 告知文面作成
 │
 ├─ knowledge/                     ← 現役の判断基準（プロンプトが参照）
-│   ├─ rules.md                   ← 45 分演説／移動バッファ／20:00 マイク納め 等
-│   ├─ road-law-checklist.md     ← 道交法（駐車禁止／交差点 5 m／etc）
-│   ├─ accessibility.md           ← 学習塾 100 m／病院・学校 静穏保持 等
+│   ├─ workflow.md                ← Phase 0〜3 のワークフロー本体
+│   ├─ rules.md                   ← 基本ルール（候補者個別 vs 汎用を分離）
+│   ├─ statuses.md                ← 司令塔シート Schedule_Master のステータス定義
+│   ├─ legal-checklist.md         ← 公職選挙法 + 道路交通法（時間制約・選挙運動期間・駐車禁止除外運用 等）
+│   ├─ accessibility.md           ← 静穏保持（学校・病院）／ 点字ブロック / 通行人配慮
 │   └─ past-cases/                ← 過去事例の記録（運用判断は別途）
-│       └─ entrance-exam-2025.md  ← 衆 26 で行った入試日程バッティング回避の実績記録
+│       └─ exam-related-2025.md   ← 衆 26 受験関連運用記録（入試 URL / 受験会場距離 / 学習塾 100m）
 │
 ├─ templates/                     ← Sheets / Drive 雛形リンク集
 │   ├─ schedule-master.md
@@ -100,13 +103,19 @@ team-mirai-speech-logistics/
     └─ validation-log.md          ← Stage 3 並列検証ログ
 ```
 
-**YAGNI 原則**: 各 Stage で必要になったディレクトリ・ファイルを順次作る。Stage 1 時点では本体雛形 + `prompts/chief-of-staff.md` の取り込みのみ。
+**YAGNI 原則**: 各 Stage で必要になったディレクトリ・ファイルを順次作る。
 
 ### Stage 1 からの変更点
 
-- `knowledge/entrance-exam-urls.md`（必須現役ルール）→ `knowledge/past-cases/entrance-exam-2025.md`（実績記録）に格下げ。理由: 入試時期バッティング回避は衆 26（2 月選挙）特有の施策で汎用性なし。運用時の要否は選挙戦前の党判断に委ねる。
+- `knowledge/entrance-exam-urls.md`（必須現役ルール）→ `knowledge/past-cases/exam-related-2025.md`（実績記録）に格下げ。理由: 入試時期バッティング回避は衆 26（2 月選挙）特有の施策で汎用性なし。学習塾 100 m / 受験会場距離も同様に過去事例化。運用時の要否は選挙戦前の党判断に委ねる。
 - `prompts/phase2-risk-check.md` を削除（入試チェックが必須でなくなったため独立プロンプトを持つ価値が薄い。リスクチェックは `phase2-location-research.md` に統合）。
 - `engineer-tools/skills/` から `exam-collision-check/`（入試突合）と `spot-bulk-import/`（spot-base 一括取り込み）を削除。前者は入試チェック非必須化、後者は spot-base が UI 操作前提のため不要。
+
+### Stage 2 で確定した knowledge/ 構成
+
+- `road-law-checklist.md` → **`legal-checklist.md`** に改名。公職選挙法のロジ関連制約（拡声器時間、選挙運動期間、選挙カー駐車禁止除外運用）も含むため、道交法に閉じた命名から法令全般に拡張。
+- `field-tips.md` は作成しない。ナレッジ Doc の項目（選挙カー音響 / 駅前時間帯 / 場所取りタイミング 等）は rules / legal-checklist / accessibility に分散して収まったため、独立ファイルを置く必要が消えた。Stage 3 以降で補助知見が溜まったら再検討。
+- 受験会場との距離取り、学習塾 100 m ルールも `past-cases/exam-related-2025.md` に統合（衆 26 現場で「都心では遵守不可能」と結論された運用判断）。
 
 ## 6. Stage 分け
 
@@ -167,25 +176,36 @@ Markdown は lint 検証用ソース・差分管理用に保持し、最終配�
 - API は存在するが本用途向けに設計されていない。無理に使うと、得るもの（数秒の時短）と失うもの（人間判断の混入余地）のバランスが悪い。
 - 将来、アプリ側に本用途向け機能追加が提案された場合は再検討（§4 末尾）。
 
-### 却下案5: 入試情報 URL を現役ナレッジに含める
+### 却下案5: 入試情報 URL・学習塾 100 m を現役ナレッジに含める
 
 却下理由:
 
 - 入試時期バッティング回避は衆 26（2 月選挙）特有の施策で、4 月統一地方選では再現性が薄い。
+- 試験日程の調査工数も大きく、必須ルール化は厳しい。
+- 学習塾 100 m 半径回避は衆 26 現場で「都心では遵守不可能」と結論された運用ルール。
 - 「現役ルール」に置くと、毎年度の URL 更新責任が発生し、運用負荷を生む。
-- ただし、過去にこういう施策を行った実績は記録価値あり → `knowledge/past-cases/entrance-exam-2025.md` に保存。運用時の要否は選挙戦前の党判断に委ねる。
+- ただし、過去にこういう施策を行った実績は記録価値あり → `knowledge/past-cases/exam-related-2025.md` に保存。運用時の要否は選挙戦前の党判断に委ねる。
+
+### 却下案6: 演説時間「45 分」・開始時刻「11 時」を汎用ルールとする
+
+却下理由:
+
+- 衆 26 高山候補に最適化された値であり、候補者個別のもの。
+- 法令制約（拡声器 8:00-20:00）と区別して、候補者ごとに調整可能であることを明示しないと、他候補陣営がこれらの値を絶対視するリスク。
+
+採用案: `knowledge/rules.md` で「法令上の絶対制約」と「候補者ごとに調整する項目」を表で分離。衆 26 値は参考としてのみ記載。
 
 ## 9. 既存資産の引き継ぎ
 
 | 既存資産 | 扱い |
 |---|---|
-| 衆 26 司令塔シート | 構造再利用、参院 / 統一地方選用に複製テンプレ化 |
-| 衆 26 ナレッジ Doc | 現役ルール部分のみ `knowledge/` 配下に分解配置。入試 URL は `knowledge/past-cases/` 行き |
-| 衆 26 スケジュール検討シート | 列構造を `templates/schedule-detail.md` で規約化 |
-| 演説場所写真 Drive | 日付別フォルダ運用継承、命名規約のみ明文化 |
+| [衆 26 司令塔シート](https://docs.google.com/spreadsheets/d/1bMUj0HhDwOLAzIT0ais0PQAkgVGpqiK_AG2GTRI0Y8o/edit) | **構造を参考に今期で新規テンプレートを作成 → 候補者ごとに複製運用**。衆 26 では運用低調だったため、AI 連携前提の運用フローを組み込み（§10 未決事項） |
+| 衆 26 ナレッジ Doc | 現役ルール部分のみ `knowledge/` 配下に分解配置（Stage 2 完了）。入試 URL・学習塾 100m・受験会場距離は `knowledge/past-cases/` 行き |
+| [衆 26 スケジュール検討シート](https://docs.google.com/spreadsheets/d/131_NUxIKnyLqY-xNM2Of27oF0hN6uxJFHdb7krFDmGI/edit) | **構造を参考に今期で新規テンプレートを作成 → 候補者ごとに複製運用**。衆 26 で実運用された実績あり、体制は基本維持。ブラッシュアップ余地は想定。列構造規約は `templates/schedule-detail.md` で管理 |
+| [演説場所写真 Drive](https://drive.google.com/drive/folders/1zp4fBgl_pYhIeQa_ihqYCJTJnEvV_s97) | 日付別フォルダ運用継承、命名規約のみ明文化 |
 | 前回の Gem プロンプト | `prompts/chief-of-staff.md` の初版として取り込み、Gemini 幹方針で改訂 |
 | mirai-speech-spot-base | **UI 操作前提の正本 DB 化**。マニュアル全体がこれ前提（§4） |
-| 衆 26 入試対応の運用記録 | `knowledge/past-cases/entrance-exam-2025.md` に実績記録として保持 |
+| 衆 26 受験関連の運用記録 | `knowledge/past-cases/exam-related-2025.md` に実績記録として保持 |
 
 ## 10. 未決事項
 
@@ -196,18 +216,28 @@ Markdown は lint 検証用ソース・差分管理用に保持し、最終配�
 - **Stage 3 並列検証の評価軸**: 出力品質 / Drive 連携の操作数 / サポーター導入しやすさ等のどれを重視するか、Stage 3 着手時に確定。
 - **engineer-tools の最終スコープ**: 現時点で確実なのは `schedule-build` のみ。他は Stage 3 並列検証で枝タスクが効く局面を確認してから判断。
 - **入試情報の運用時要否**: 選挙日程が確定した時点で党判断（本リポジトリには記録のみ保持）。
+- **司令塔シート・スケジュール検討シートのテンプレート新規作成**: 衆 26 の構造を参考に、今期向けテンプレートを Google Sheets で新規作成する作業がある。担当: ミッションオーナー（または依頼先）。Stage 2 後半〜Stage 3 着手前。
+- **司令塔シートのブラッシュアップ**: 衆 26 では運用低調。AI と作業する際の「今どこまで終わったか」即把握用途で本来は機能するため、テンプレート新規作成時に AI 連携前提の運用フローを組み込む。
+- **LINE オプチャ協力者募集フロー**: 知見のある方を呼んで詰める（候補者選定後にミッションオーナー経由で依頼）。`workflow.md` Phase 3 に枠だけ確保済。
+- **選挙カー無しの候補者向け運用記述**: 現状の `rules.md` は「選挙カー有り前提」。無し候補者向けに別途運用記述を用意するか、`rules.md` 内で枝分けするかを Stage 4 マニュアル本文起こし時に判断。
 
-### 解決済（Stage 1 後半判断）
+### 解決済
 
 - AI 経路の幹: Gemini に確定（§3）
 - spot-base 扱い: UI 操作前提に確定（§4）
 - マニュアル位置付け: サポーター主導 × 本部後ろ盾、スタンダード共有想定に確定（§1, §2）
 - 入試情報の位置付け: 過去事例として記録化、現役ナレッジから外す（§5, §8 却下案5）
 - Stage 5 試運転の場: 模擬日程で wet test に確定（2026 参院選なし）
+- 演説時間 45 分・開始 11 時の汎用化: 候補者個別ルールとして分離、汎用ルール化を却下（§8 却下案6）
+- 同じ場所への複数回演説可否: 候補者の戦略に依存、決め打ちしない（rules.md）
+- 学習塾 100 m・受験会場距離: 過去事例化（past-cases/exam-related-2025.md）
+- knowledge/ ディレクトリ構成: 6 ファイル + past-cases に確定（§5）。road-law-checklist → legal-checklist に改名
 
 ## 11. 直近の意思決定履歴（要点のみ）
 
 - リポジトリ初期化（Stage 1 前半）— README / DESIGN / CLAUDE.md / `prompts/chief-of-staff.md` の 4 ファイル作成から開始。空ディレクトリ・placeholder は作らず、Stage が進むごとに足す方針。
 - 親プロジェクト `team-mirai-manual-lint` とは独立した別リポジトリで開始。lint 側は読み込み専用とし、書き込まない。
 - 引き継ぎ文書 `c:\Projects\team-mirai-speech-logistics-handoff.md` を初期文脈の正本とする（リポジトリ外）。
-- Stage 1 後半判断（本コミット反映）— AI 経路の幹を Gemini に確定 / spot-base を UI 操作前提に確定 / マニュアル位置付けをサポーター主導 × 本部後ろ盾・スタンダード共有想定に確定 / 入試情報を過去事例化 / Stage 5 を模擬日程に確定。
+- Stage 1 後半判断 — AI 経路の幹を Gemini に確定 / spot-base を UI 操作前提に確定 / マニュアル位置付けをサポーター主導 × 本部後ろ盾・スタンダード共有想定に確定 / 入試情報を過去事例化 / Stage 5 を模擬日程に確定。
+- Stage 2 知識構造化 — 衆 26 ナレッジ Doc を Drive MCP で取得・分解、`knowledge/` 6 ファイル + past-cases を作成。候補者個別ルール（45 分・11 時等）と汎用ルールを分離。`road-law-checklist` → `legal-checklist` に改名。`field-tips.md` 計画を撤回。
+- 選挙カー使用方針を「基本使う / 不使用判断は柔軟に」に再整理。選挙カー無し候補者の存在を明示。
