@@ -90,11 +90,14 @@ team-mirai-speech-logistics/
 │   ├─ schedule-detail.md
 │   └─ photo-folder.md
 │
-├─ engineer-tools/                ← Claude Code 枝（オプション、Stage 3 後に再評価）
+├─ engineer-tools/                ← Claude Code / Apps Script の「枝」ツール群（オプション）
 │   ├─ README.md
-│   ├─ skills/
-│   │   └─ schedule-build/        ← Sheets 上のタイムライン構築自動化（現時点で唯一価値が確定）
-│   └─ scripts/
+│   ├─ skills/                    ← Claude Code skills（Stage 3 後に着手判断）
+│   │   └─ schedule-build/        ← Sheets 上のタイムライン構築自動化（候補、未着手）
+│   └─ scripts/                   ← Apps Script
+│       ├─ README.md
+│       ├─ create-schedule-master.gs   ← 司令塔シートテンプレ生成
+│       └─ create-schedule-detail.gs   ← スケジュール検討シートテンプレ生成
 │
 └─ docs/
     ├─ setup-for-supporters.md
@@ -216,8 +219,8 @@ Markdown は lint 検証用ソース・差分管理用に保持し、最終配�
 - **Stage 3 並列検証の評価軸**: 出力品質 / Drive 連携の操作数 / サポーター導入しやすさ等のどれを重視するか、Stage 3 着手時に確定。
 - **engineer-tools の最終スコープ**: 現時点で確実なのは `schedule-build` のみ。他は Stage 3 並列検証で枝タスクが効く局面を確認してから判断。
 - **入試情報の運用時要否**: 選挙日程が確定した時点で党判断（本リポジトリには記録のみ保持）。
-- **司令塔シート・スケジュール検討シートのテンプレート Sheet 本体作成**: 規約は [templates/schedule-master.md](./templates/schedule-master.md) と [templates/schedule-detail.md](./templates/schedule-detail.md) に整理済（Stage 2 後半判断）。Sheet 本体作成は担当: ミッションオーナー（または依頼先）。Stage 2 後半〜Stage 3 着手前。
-- **司令塔シートのブラッシュアップ**: 衆 26 では運用低調。レビュー結果と AI 連携最適化を [templates/schedule-master.md](./templates/schedule-master.md) に反映済（A 案: 軽量化 + Schedule_Master のみ + メタデータブロック + AI 連携セル + ステータス enum 化）。Sheet 本体作成時にこの規約を適用する。
+- **司令塔シート・スケジュール検討シートのテンプレート Sheet 本体作成**: 規約は [templates/schedule-master.md](./templates/schedule-master.md) と [templates/schedule-detail.md](./templates/schedule-detail.md) に整理済。**Apps Script で自動生成可能**（[engineer-tools/scripts/](./engineer-tools/scripts/)）。ミッションオーナーがスクリプトを実行 → 生成 Sheet URL を templates/*.md 末尾に追記する流れ。Stage 2 後半〜Stage 3 着手前に実施。
+- **司令塔シートのブラッシュアップ**: 衆 26 では運用低調。レビュー結果と AI 連携最適化を [templates/schedule-master.md](./templates/schedule-master.md) に反映済（A 案: 軽量化 + Schedule_Master のみ + メタデータブロック + AI 連携セル + ステータス enum 化）。Apps Script で構造ごと自動生成される。
 - **LINE オプチャ協力者募集フロー**: 知見のある方を呼んで詰める（候補者選定後にミッションオーナー経由で依頼）。`workflow.md` Phase 3 に枠だけ確保済。
 - **選挙カー無しの候補者向け運用記述**: `rules.md`「選挙カー使用方針」内に A（あり）/ B（なし）の 2 分岐構造でたたき台作成済（Stage 2 後半）。B セクションは要レビュー、経験者ヒアリング待ち（機材標準・標旗運用・道路使用許可閾値・搬入セットアップ時間・効果差等の論点を [knowledge/rules.md](./knowledge/rules.md) 末尾「レビュー観点」に明示）。
 

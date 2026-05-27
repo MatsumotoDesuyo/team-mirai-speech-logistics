@@ -84,12 +84,12 @@ strategy: 衆 26 の体制は基本維持、ブラッシュアップ 5 点を反
 
 ## 作成タイミング
 
-- Sheet 本体作成: ミッションオーナー（または依頼先）が Google Sheets で。Stage 2 後半〜Stage 3 着手前。
+- Sheet 本体作成: Apps Script [engineer-tools/scripts/create-schedule-detail.gs](../engineer-tools/scripts/create-schedule-detail.gs) で生成。手順は [engineer-tools/scripts/README.md](../engineer-tools/scripts/README.md)。
 - 本リポジトリ側: 本ファイル（規約）と、作成後の Sheet URL を末尾に追記する運用。
 
 ## テンプレ Sheet URL
 
-> Stage 2 後半で作成後、ここに URL を貼る。
+> Apps Script 実行後、ここに URL を貼る（候補者ごとに 1 ファイル）。
 
 ## 出典・更新履歴
 
