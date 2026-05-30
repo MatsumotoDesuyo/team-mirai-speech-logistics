@@ -10,36 +10,49 @@ status: 初版（ミッションオーナーが Gemini で実行 → docs/valida
 
 ## 実行手順
 
-### ステップ 1: プロンプト準備
+### ステップ 1: プロンプト本文と置き換え値の準備
 
-1. [chief-of-staff.md](../prompts/chief-of-staff.md) の「## プロンプト本文」セクション内（```markdown ... ``` のコードブロック）の本文をコピー
-2. 置き換える項目を以下で置換:
-   - `{{候補者名}}` → `テスト候補者A`（または任意の架空名）
+1. [chief-of-staff.md](../prompts/chief-of-staff.md) の「## プロンプト本文」セクション内（```markdown ... ``` のコードブロック）の本文をコピー（[MANUAL.md §14.5](../MANUAL.md) の Docs 版から取得しても同内容）
+2. 置き換える項目を以下で差し替え:
+   - `{{候補者名}}` → `テスト候補者A`（架空名）
    - `{{選挙種別}}` → `2027 統一地方選 / 東京都〇〇区議`
    - `{{schedule_master_url}}` → 生成済みの進捗管理シート URL（[templates/schedule-master.md](../templates/schedule-master.md) 末尾）
-   - `{{schedule_detail_url}}` → 生成済みのスケジュール検討シート URL
-   - `{{photo_drive_url}}` → 空欄でも可（テスト時は不要）
-3. ナレッジは GitHub raw URL リファレンスとしてプロンプト内に列挙済み。Gemini は自前で取得を試みる、Claude Code は WebFetch / Read で読みに行く想定
+   - `{{schedule_detail_url}}` → 生成済みのスケジュール検討シート URL（[templates/schedule-detail.md](../templates/schedule-detail.md) 末尾）
 
-### ステップ 2: Gemini で実行
+### ステップ 2: 会話に共有する 3 つを準備
+
+プロンプト本文に「必ず会話に添付・共有してもらう情報」として明示している 3 つを準備します。
+
+| # | 添付物 | URL |
+|---|---|---|
+| 1 | **本マニュアル（演説場所選定マニュアル）の Google Docs** | <https://docs.google.com/document/d/1PSbhWux2jT6cXECLrmcTkKVHp1VRuk62ktR8Kz7rg2Y/edit> |
+| 2 | **テンプレ進捗管理シート** | <https://docs.google.com/spreadsheets/d/1njATHzGa_nLEDW9PRbhTyBfhia2YE_94ojAEot11LT4/edit> |
+| 3 | **テンプレスケジュール検討シート** | <https://docs.google.com/spreadsheets/d/1kSrubFBiPbey7nDpI_QR23LT1AK6q7a7Qkf_DU_Bpbw/edit> |
+
+実候補者運用時は #2 / #3 を候補者ごとに複製したものに差し替えます。本テストではテンプレをそのまま使用。
+
+### ステップ 3: Gemini で実行
 
 1. Gemini（gemini.google.com）で新規会話を開く
-2. ステップ 1 で準備した system プロンプト相当を貼り付け
-3. シナリオ S1 〜 S5 の「ユーザー入力」を順に投げる
-4. 各回の出力を [validation-log.md](./validation-log.md) の該当セクションに転記
+2. ステップ 1 で準備したプロンプト本文を貼り付け
+3. ステップ 2 の 3 つの URL を会話に共有
+4. Gemini が「了解しました」等で応答するまで待つ（「3 つの添付情報を確認しました」のような確認応答が出れば理想）
+5. シナリオ S1 〜 S5 の「ユーザー入力」を順に投げる
+6. 各回の出力を [validation-log.md](./validation-log.md) の該当セクションに転記
 
-### ステップ 3: Claude Code で実行
+### ステップ 4: Claude Code で実行
 
 1. 本リポジトリのルートで Claude Code を起動
-2. system プロンプトを `/init` または new session で渡す（あるいは作業用 markdown に貼り、参照させる）
-3. 同じ S1 〜 S5 のユーザー入力を投げる
-4. 各回の出力を validation-log.md に転記
+2. プロンプト本文を新規セッションに渡す（ファイル経由で参照させてもよい）
+3. 3 つの添付物を共有: [MANUAL.md](../MANUAL.md) を Read で参照、進捗管理シート・スケジュール検討シートは Drive MCP で参照
+4. 同じ S1 〜 S5 のユーザー入力を投げる
+5. 各回の出力を validation-log.md に転記
 
-### ステップ 4: 評価
+### ステップ 5: 評価
 
 1. 各シナリオの「観察ポイント」と [validation-criteria.md](./validation-criteria.md) の評価軸 ID を照合
 2. OK / NG / 部分的 を判定
-3. NG の場合、原因（プロンプト記述 / ナレッジ参照 / モデル特性）を分類
+3. NG の場合、原因（プロンプト記述 / Docs 参照 / モデル特性）を分類
 
 ---
 
