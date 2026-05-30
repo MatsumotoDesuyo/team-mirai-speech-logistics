@@ -64,6 +64,9 @@ function buildReadmeTab_(sheet) {
     ['  J 演説場所 GoogleMap / K 演説場所住所'],
     ['  L 想定参加 / M 場所取り担当 / N 参考URL / O 備考'],
     [''],
+    ['注意: D 列「種別」は候補者のタイムラインに限定。'],
+    ['  場所取りなどサポーター動きは L 列「想定参加」・M 列「場所取り担当」で別管理。'],
+    [''],
     ['spot-base URL を最優先（ミッションオーナー方針）:'],
     ['  G 列に URL があれば H〜K は空欄可（spot-base 側を参照）'],
     ['  spot-base 未登録の場合のみ H〜K を直接記入、後で spot-base 登録'],
@@ -95,7 +98,8 @@ function buildDailyTab_(sheet) {
     .setFontColor('#ffffff');
 
   // D 列 (種別) Data Validation
-  const taskTypes = ['演説', '移動', '休憩', 'マイク納め', '場所取り', 'その他'];
+  // 候補者のタイムラインに限定。場所取り等のサポーター動きは含めない（混入防止）
+  const taskTypes = ['演説', '移動', '休憩', 'マイク納め', 'その他'];
   const taskRule = SpreadsheetApp.newDataValidation()
     .requireValueInList(taskTypes, true)
     .setAllowInvalid(false)
