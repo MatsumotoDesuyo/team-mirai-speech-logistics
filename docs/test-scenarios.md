@@ -175,10 +175,11 @@ LINE オプチャ用の告知文と、当日のサポーター募集アンケー
 
 S1 〜 S5 の実行中に、両ランタイムでナレッジ参照の挙動を観察:
 
-- **Gemini**: プロンプト内の GitHub raw URL を実際に取得できるか? できない場合、Drive Doc ミラーが必要か?
-- **Claude Code**: WebFetch でリポジトリ raw URL を取得できるか? Read で project 内ファイルを参照する方が安定か?
+- **Gemini**: 共有された Google Docs（MANUAL.md の Docs 版）の内容を正しく読み取り、章番号で正しく引用できるか
+- **Claude Code**: ローカル MANUAL.md を Read で読み取り、章番号で正しく引用できるか
+- **両者共通**: 進捗管理シートとスケジュール検討シートの内容を正しく読み取り、現在の作業対象セル / ステータスを反映できるか
 
-両ランタイムの挙動差を validation-log.md に記録し、Stage 3 完了時にハイブリッド設計を確定する（[DESIGN.md §8 却下案3](../DESIGN.md) の宿題）。
+両ランタイムの挙動差を validation-log.md に記録します。
 
 ## 実行に際しての注意
 
