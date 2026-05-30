@@ -13,7 +13,7 @@
 
 ## 現時点で実装済み
 
-- `scripts/create-schedule-master.gs` — 司令塔シートのテンプレート生成
+- `scripts/create-schedule-master.gs` — 進捗管理シートのテンプレート生成
 - `scripts/create-schedule-detail.gs` — スケジュール検討シートのテンプレート生成
 - `scripts/README.md` — 実行手順
 

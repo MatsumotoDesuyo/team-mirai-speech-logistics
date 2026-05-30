@@ -81,7 +81,7 @@ team-mirai-speech-logistics/
 ├─ knowledge/                     ← 現役の判断基準（プロンプトが参照）
 │   ├─ workflow.md                ← Phase 0〜3 のワークフロー本体
 │   ├─ rules.md                   ← 基本ルール（候補者個別 vs 汎用を分離）
-│   ├─ statuses.md                ← 司令塔シート Schedule_Master のステータス定義
+│   ├─ statuses.md                ← 進捗管理シート Schedule_Master のステータス定義
 │   ├─ legal-checklist.md         ← 公職選挙法 + 道路交通法（時間制約・選挙運動期間・駐車禁止除外運用 等）
 │   ├─ accessibility.md           ← 静穏保持（学校・病院）／ 点字ブロック / 通行人配慮
 │   └─ past-cases/                ← 過去事例の記録（運用判断は別途）
@@ -98,7 +98,7 @@ team-mirai-speech-logistics/
 │   │   └─ schedule-build/        ← Sheets 上のタイムライン構築自動化（候補、未着手）
 │   └─ scripts/                   ← Apps Script
 │       ├─ README.md
-│       ├─ create-schedule-master.gs   ← 司令塔シートテンプレ生成
+│       ├─ create-schedule-master.gs   ← 進捗管理シートテンプレ生成
 │       └─ create-schedule-detail.gs   ← スケジュール検討シートテンプレ生成
 │
 └─ docs/
@@ -129,11 +129,11 @@ GUIDELINES.md §3 の趣旨（読み手ナビゲーション）は踏襲しつ�
 **フラット 14 章構成**（初心者は §1〜§5 を読めば全体像をつかめる順序）:
 
 1. 概要（目的・対象読者・スコープ）
-2. 準備するもの（spot-base / 司令塔シート / スケジュール検討シート / AI）
+2. 準備するもの（spot-base / 進捗管理シート / スケジュール検討シート / AI）
 3. ワークフロー要約（Phase 0〜3 のフロー図）
 4. AI の使い方（Gemini を幹、chief-of-staff プロンプト貼り付け 3 ステップ）
 5. 法令・安全の絶対制約（拡声器 8:00-20:00 / 20:00 マイク納め / 候補者届け出以降の選挙運動 / 安全＞スケジュール＞集客）
-6. Phase 0: トリガーと司令塔シート起票
+6. Phase 0: トリガーと進捗管理シート起票
 7. Phase 1: タイムライン設計（候補者個別 vs 汎用 vs 法令の 3 区分、選挙カー有無の分岐、体力配慮）
 8. Phase 2: 場所選定（**spot-base UI 優先動線**）
 9. Phase 2: リスクチェック（道交法・静穏保持。入試・学習塾は過去事例扱い）
@@ -283,8 +283,8 @@ GUIDELINES.md §3「全体の構成」の推奨パターンとして「前編 2 
 - **engineer-tools の最終スコープ**: 現時点で確実なのは `schedule-build` のみ。他は Stage 3 並列検証で枝タスクが効く局面を確認してから判断。
 - **Docs 運用ルール（Stage 4 完了後）**: マニュアル Docs の格納フォルダ、URL 変更時の通知、編集権限、バージョン管理（Docs 履歴 vs リポジトリ commit）等の運用ルール整備。チームみらい本部と擦り合わせ。
 - **入試情報の運用時要否**: 選挙日程が確定した時点で党判断（本リポジトリには記録のみ保持）。
-- **司令塔シート・スケジュール検討シートのテンプレート Sheet 本体作成**: 規約は [templates/schedule-master.md](./templates/schedule-master.md) と [templates/schedule-detail.md](./templates/schedule-detail.md) に整理済。**Apps Script で自動生成可能**（[engineer-tools/scripts/](./engineer-tools/scripts/)）。ミッションオーナーがスクリプトを実行 → 生成 Sheet URL を templates/*.md 末尾に追記する流れ。Stage 2 後半〜Stage 3 着手前に実施。
-- **司令塔シートのブラッシュアップ**: 衆 26 では運用低調。レビュー結果と AI 連携最適化を [templates/schedule-master.md](./templates/schedule-master.md) に反映済（A 案: 軽量化 + Schedule_Master のみ + メタデータブロック + AI 連携セル + ステータス enum 化）。Apps Script で構造ごと自動生成される。
+- **進捗管理シート・スケジュール検討シートのテンプレート Sheet 本体作成**: 規約は [templates/schedule-master.md](./templates/schedule-master.md) と [templates/schedule-detail.md](./templates/schedule-detail.md) に整理済。**Apps Script で自動生成可能**（[engineer-tools/scripts/](./engineer-tools/scripts/)）。ミッションオーナーがスクリプトを実行 → 生成 Sheet URL を templates/*.md 末尾に追記する流れ。Stage 2 後半〜Stage 3 着手前に実施。
+- **進捗管理シートのブラッシュアップ**: 衆 26 では運用低調。レビュー結果と AI 連携最適化を [templates/schedule-master.md](./templates/schedule-master.md) に反映済（A 案: 軽量化 + Schedule_Master のみ + メタデータブロック + AI 連携セル + ステータス enum 化）。Apps Script で構造ごと自動生成される。
 - **LINE オプチャ協力者募集フロー**: 知見のある方を呼んで詰める（候補者選定後にミッションオーナー経由で依頼）。`workflow.md` Phase 3 に枠だけ確保済。
 - **選挙カー無しの候補者向け運用記述**: `rules.md`「選挙カー使用方針」内に A（あり）/ B（なし）の 2 分岐構造で大枠を作成（Stage 2 後半）。B セクションは **保留中**: ミッションオーナーがカーあり運用経験のみのため、機材詳細は本タスクのスコープ外。詳細は経験者ヒアリングで詰める（[knowledge/rules.md](./knowledge/rules.md) 末尾「経験者ヒアリング項目」参照）。
 

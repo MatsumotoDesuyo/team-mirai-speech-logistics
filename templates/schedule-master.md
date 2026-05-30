@@ -1,11 +1,11 @@
 ---
 name: schedule-master
-description: 司令塔シート（軽量版）のテンプレート規約。日別の進捗状態のみ管理、場所詳細は持たない
+description: 進捗管理シート（軽量版）のテンプレート規約。日別の進捗状態のみ管理、場所詳細は持たない
 based_on: 衆 26 司令塔シート（1bMUj0HhDwOLAzIT0ais0PQAkgVGpqiK_AG2GTRI0Y8o）の構造参考
 strategy: A 案（軽量化、スケジュール検討シートと役割分担）
 ---
 
-# 司令塔シート テンプレート規約
+# 進捗管理シート テンプレート規約
 
 衆 26 司令塔シートのレビューを踏まえ、**軽量化版**として今期テンプレートを定義する。場所詳細は [schedule-detail.md](./schedule-detail.md)（スケジュール検討シート）に集約し、本シートは **日別の進捗状態と AI 連携** のみを担う。
 
@@ -81,7 +81,7 @@ strategy: A 案（軽量化、スケジュール検討シートと役割分担�
 
 ## テンプレ Sheet URL
 
-- **テンプレ初版**（候補者名プレースホルダ）: <https://docs.google.com/spreadsheets/d/1njATHzGa_nLEDW9PRbhTyBfhia2YE_94ojAEot11LT4/edit>
+- **テンプレ初版**（候補者名置き換える項目）: <https://docs.google.com/spreadsheets/d/1njATHzGa_nLEDW9PRbhTyBfhia2YE_94ojAEot11LT4/edit>
 
 候補者ごとに 1 ファイルを生成する運用。本ファイルにはテンプレ初版 URL を記録、候補者選定後は別ファイルとして複製・運用する。
 

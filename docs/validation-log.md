@@ -23,10 +23,10 @@ status: 雛形（実行ごとに追記）
 - **Gemini**: モデル名 / 設定 / Drive 連携の有無
 - **Claude Code**: バージョン / 利用 MCP / ローカル環境
 - **使用した chief-of-staff プロンプト**: prompts/chief-of-staff.md のコミット SHA: （例: 4862960）
-- **プレースホルダ置換値**:
+- **置き換える項目置換値**:
   - 候補者名: テスト候補者A
   - 選挙種別: 2027 統一地方選 / 東京都〇〇区議
-  - 司令塔シート URL: （[templates/schedule-master.md](../templates/schedule-master.md) 末尾の URL）
+  - 進捗管理シート URL: （[templates/schedule-master.md](../templates/schedule-master.md) 末尾の URL）
 
 ### S1: Phase 1 タイムライン設計（基本動作）
 

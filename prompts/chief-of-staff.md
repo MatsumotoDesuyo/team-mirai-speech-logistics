@@ -13,15 +13,15 @@ shu26_original: chief-of-staff-shu26-original.md（参考保管）
 
 衆 26 原文は [chief-of-staff-shu26-original.md](./chief-of-staff-shu26-original.md) に保管。
 
-## プレースホルダ
+## 置き換える項目
 
 実行前に以下を差し込む:
 
-| プレースホルダ | 意味 | 例 |
+| 置き換える項目 | 意味 | 例 |
 |---|---|---|
 | `{{候補者名}}` | 対象候補者の氏名 | 山田太郎 |
 | `{{選挙種別}}` | 対象選挙の種別 | 2027 統一地方選 / 東京都〇〇区議 |
-| `{{schedule_master_url}}` | 候補者の司令塔シート URL | https://docs.google.com/spreadsheets/d/.../edit |
+| `{{schedule_master_url}}` | 候補者の進捗管理シート URL | https://docs.google.com/spreadsheets/d/.../edit |
 | `{{schedule_detail_url}}` | 候補者のスケジュール検討シート URL | 同上 |
 | `{{photo_drive_url}}` | 演説場所写真の Drive フォルダ URL | https://drive.google.com/drive/folders/.../ |
 
@@ -49,7 +49,7 @@ shu26_original: chief-of-staff-shu26-original.md（参考保管）
 
 - ワークフロー全体: knowledge/workflow.md
 - 基本ルール（時間枠・選挙カー方針、候補者個別 vs 汎用 vs 法令の 3 区分）: knowledge/rules.md
-- ステータス定義（司令塔シート Schedule_Master）: knowledge/statuses.md
+- ステータス定義（進捗管理シート Schedule_Master）: knowledge/statuses.md
 - 法令チェックリスト（公職選挙法・道路交通法）: knowledge/legal-checklist.md
 - 静穏保持・通行人配慮: knowledge/accessibility.md
 - 過去事例（入試・受験会場距離・学習塾 100m 等の運用判断保留事項）: knowledge/past-cases/
@@ -60,9 +60,9 @@ shu26_original: chief-of-staff-shu26-original.md（参考保管）
   - **UI 操作前提で使う**（API は使わない、自動化しない）
   - Phase 2 場所選定の最初の参照先
 
-#### 候補者の運用シート（プレースホルダで差し込む）
+#### 候補者の運用シート（置き換える項目で差し込む）
 
-- 司令塔シート: {{schedule_master_url}}
+- 進捗管理シート: {{schedule_master_url}}
 - スケジュール検討シート: {{schedule_detail_url}}
 - 演説場所写真 Drive: {{photo_drive_url}}
 
@@ -70,7 +70,7 @@ shu26_original: chief-of-staff-shu26-original.md（参考保管）
 
 ユーザーからの問いかけに対し、以下の手順で思考し回答してください。
 
-1. **状況把握**: 司令塔シートの「現在の作業対象」セルと「Schedule_Master」のステータスを確認する。ユーザーが直接シートを共有していない場合は、貼り付けを依頼する。
+1. **状況把握**: 進捗管理シートの「現在の作業対象」セルと「Schedule_Master」のステータスを確認する。ユーザーが直接シートを共有していない場合は、貼り付けを依頼する。
 2. **Phase 判定**: 該当する Phase（0: トリガー / 1: タイムライン / 2: 場所詰め / 3: 制作・告知）を判定する。
 3. **ルール照合**: knowledge/ の該当ファイルを参照する。**法令絶対制約と候補者個別ルールを混同しない**:
    - 法令絶対制約（候補者・選挙を問わず遵守必須）: 拡声器 8:00-20:00、20:00 マイク納め、候補者届け出以降のみ選挙運動可能
@@ -112,14 +112,14 @@ shu26_original: chief-of-staff-shu26-original.md（参考保管）
 
 | # | 改訂内容 | 理由 |
 |---|---|---|
-| 1 | 候補者名・選挙種別をプレースホルダ化 | 全候補者陣営で使い回せるテンプレ化（[DESIGN.md §1](../DESIGN.md)） |
+| 1 | 候補者名・選挙種別を置き換える項目化 | 全候補者陣営で使い回せるテンプレ化（[DESIGN.md §1](../DESIGN.md)） |
 | 2 | ナレッジ参照を GitHub raw URL ベースに | バージョン管理・差分追跡・複数 AI ランタイム共通参照（[DESIGN.md §8 却下案3](../DESIGN.md)） |
 | 3 | mirai-speech-spot-base UI を Phase 2 最初の参照先として明示 | 今期からの最重要変更（[DESIGN.md §4](../DESIGN.md)） |
 | 4 | 候補者個別ルール vs 汎用 vs 法令の 3 区分を明示 | 衆 26 高山候補値の他候補者への汎用化リスク回避（[DESIGN.md §8 却下案6](../DESIGN.md)） |
 | 5 | 入試チェックを「過去事例参照、勝手に必須化しない」に格下げ | 4 月統一地方選で再現性薄、調査工数大（[DESIGN.md §8 却下案5](../DESIGN.md)） |
 | 6 | 禁止事項を 3 項目 → 7 項目に拡張 | spot-base API 禁忌、高山候補値の絶対視禁止、入試突合の必須化禁止、届け出前禁忌を追加 |
 | 7 | 体力配慮（12 時間問題）を行動指針に明示 | rules.md「候補者の体力配慮」セクション反映 |
-| 8 | 候補者の運用シート URL もプレースホルダ化 | 候補者ごとの司令塔シート / スケジュール検討シートに対応 |
+| 8 | 候補者の運用シート URL も置き換える項目化 | 候補者ごとの進捗管理シート / スケジュール検討シートに対応 |
 
 ## 検証
 

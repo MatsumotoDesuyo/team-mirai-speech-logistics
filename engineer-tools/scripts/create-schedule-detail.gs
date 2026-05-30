@@ -54,7 +54,7 @@ function buildReadmeTab_(sheet) {
     ['  _メモ              自由メモ（補助）'],
     [''],
     ['日別タブの構造:'],
-    ['  A1:B3   タブメタデータ（司令塔シート参照 URL / 演説エリア / 担当）'],
+    ['  A1:B3   タブメタデータ（進捗管理シート参照 URL / 演説エリア / 担当）'],
     ['  Row 5   ヘッダー行'],
     ['  Row 6+  タイムライン'],
     [''],
@@ -75,7 +75,7 @@ function buildReadmeTab_(sheet) {
 function buildDailyTab_(sheet) {
   // タブメタデータ (A1:B3)
   sheet.getRange('A1:B3').setValues([
-    ['司令塔シート該当行 URL', ''],
+    ['進捗管理シート該当行 URL', ''],
     ['演説エリア', ''],
     ['担当', ''],
   ]);

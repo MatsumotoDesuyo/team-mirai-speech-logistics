@@ -34,7 +34,7 @@ strategy: 衆 26 の体制は基本維持、ブラッシュアップ 5 点を反
 
 | セル | 内容 | 例 |
 |---|---|---|
-| A1 | 司令塔シート該当行 URL | https://docs.google.com/spreadsheets/d/.../edit#gid=...&range=A18 |
+| A1 | 進捗管理シート該当行 URL | https://docs.google.com/spreadsheets/d/.../edit#gid=...&range=A18 |
 | B1 | 演説日 | 2027-04-18 |
 | A2 | 演説エリア | 東京都〇〇区 |
 | B2 | 想定マイク納め時刻 | 18:30 |
@@ -79,7 +79,7 @@ strategy: 衆 26 の体制は基本維持、ブラッシュアップ 5 点を反
 | 場所詳細をシートに直接記入 | G 列 「spot-base URL」優先 | 二重管理排除、spot-base 集約 |
 | タブ名規約なし | `YYYY-MM-DD_候補者名` / `_` prefix 規約 | 23 タブ規模の可読性 |
 | 人員情報なし | L 列「想定参加」、M 列「場所取り担当」 | LINE オプチャ連携、人員判断 |
-| 司令塔シートとの参照リンクなし | A1 セルに司令塔該当行リンク | 人間ナビゲーション補助 |
+| 進捗管理シートとの参照リンクなし | A1 セルに進捗管理該当行リンク | 人間ナビゲーション補助 |
 | 補助タブと日別タブ混在 | 補助タブは `_` prefix で分離 | タブ一覧の視認性 |
 
 ## 作成タイミング
@@ -89,7 +89,7 @@ strategy: 衆 26 の体制は基本維持、ブラッシュアップ 5 点を反
 
 ## テンプレ Sheet URL
 
-- **テンプレ初版**（候補者名プレースホルダ）: <https://docs.google.com/spreadsheets/d/1kSrubFBiPbey7nDpI_QR23LT1AK6q7a7Qkf_DU_Bpbw/edit>
+- **テンプレ初版**（候補者名置き換える項目）: <https://docs.google.com/spreadsheets/d/1kSrubFBiPbey7nDpI_QR23LT1AK6q7a7Qkf_DU_Bpbw/edit>
 
 候補者ごとに 1 ファイルを生成する運用。本ファイルにはテンプレ初版 URL を記録、候補者選定後は別ファイルとして複製・運用する。
 

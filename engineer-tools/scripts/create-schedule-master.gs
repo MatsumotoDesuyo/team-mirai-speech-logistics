@@ -1,5 +1,5 @@
 /**
- * 司令塔シートテンプレートを Google Drive 上に新規作成する Apps Script。
+ * 進捗管理シートテンプレートを Google Drive 上に新規作成する Apps Script。
  *
  * 規約: team-mirai-speech-logistics/templates/schedule-master.md
  *
@@ -18,7 +18,7 @@ function createScheduleMaster() {
   const CANDIDATE_NAME = '【候補者名】';
   const ELECTION_TYPE = '【選挙種別】';
 
-  const ss = SpreadsheetApp.create(`司令塔シート_${CANDIDATE_NAME}`);
+  const ss = SpreadsheetApp.create(`進捗管理シート_${CANDIDATE_NAME}`);
   const sheet = ss.getActiveSheet();
   sheet.setName('Schedule_Master');
 
@@ -89,6 +89,6 @@ function createScheduleMaster() {
   sheet.setFrozenRows(13);
 
   // ===== 完了ログ =====
-  Logger.log('司令塔シートを作成しました: %s', ss.getUrl());
+  Logger.log('進捗管理シートを作成しました: %s', ss.getUrl());
   Logger.log('次の手順: templates/schedule-master.md 末尾「テンプレ Sheet URL」に上記 URL を追記');
 }

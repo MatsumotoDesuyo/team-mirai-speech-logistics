@@ -6,7 +6,7 @@ Google Sheets テンプレートを自動生成する Apps Script。本リポジ
 
 | ファイル | 実行関数 | 生成物 |
 |---|---|---|
-| [create-schedule-master.gs](./create-schedule-master.gs) | `createScheduleMaster()` | 司令塔シート 1 枚（Schedule_Master タブ）。メタデータブロック・AI 連携セル・ステータス Data Validation 込み |
+| [create-schedule-master.gs](./create-schedule-master.gs) | `createScheduleMaster()` | 進捗管理シート 1 枚（Schedule_Master タブ）。メタデータブロック・AI 連携セル・ステータス Data Validation 込み |
 | [create-schedule-detail.gs](./create-schedule-detail.gs) | `createScheduleDetail()` | スケジュール検討シート 3 タブ（_README / YYYY-MM-DD_sample / _候補リスト_sample）。種別 Data Validation 込み |
 
 ## 実行手順

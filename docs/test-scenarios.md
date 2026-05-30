@@ -13,10 +13,10 @@ status: 初版（ミッションオーナーが Gemini で実行 → docs/valida
 ### ステップ 1: プロンプト準備
 
 1. [chief-of-staff.md](../prompts/chief-of-staff.md) の「## プロンプト本文」セクション内（```markdown ... ``` のコードブロック）の本文をコピー
-2. プレースホルダを以下で置換:
+2. 置き換える項目を以下で置換:
    - `{{候補者名}}` → `テスト候補者A`（または任意の架空名）
    - `{{選挙種別}}` → `2027 統一地方選 / 東京都〇〇区議`
-   - `{{schedule_master_url}}` → 生成済みの司令塔シート URL（[templates/schedule-master.md](../templates/schedule-master.md) 末尾）
+   - `{{schedule_master_url}}` → 生成済みの進捗管理シート URL（[templates/schedule-master.md](../templates/schedule-master.md) 末尾）
    - `{{schedule_detail_url}}` → 生成済みのスケジュール検討シート URL
    - `{{photo_drive_url}}` → 空欄でも可（テスト時は不要）
 3. ナレッジは GitHub raw URL リファレンスとしてプロンプト内に列挙済み。Gemini は自前で取得を試みる、Claude Code は WebFetch / Read で読みに行く想定

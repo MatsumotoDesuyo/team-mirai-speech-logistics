@@ -1,17 +1,17 @@
 ---
 name: statuses
-description: 司令塔シート Schedule_Master のステータス定義（運用状態の標準語彙）
+description: 進捗管理シート Schedule_Master のステータス定義（運用状態の標準語彙）
 source: 衆 26 ナレッジ Doc §3
 status: 衆 26 ベース、ステータス名は汎用化
 ---
 
 # ステータス定義（Schedule_Master）
 
-司令塔シートの「Schedule_Master」シートで日程ごとに管理する状態。各ステータスは [workflow.md](./workflow.md) の Phase 0〜3 と対応する。
+進捗管理シートの「Schedule_Master」シートで日程ごとに管理する状態。各ステータスは [workflow.md](./workflow.md) の Phase 0〜3 と対応する。
 
 | ステータス | 状態 | 対応 Phase | 次のアクション |
 |---|---|---|---|
-| 未着手 | タスク発生前 | - | Phase 0: 司令塔シートに日程追加 |
+| 未着手 | タスク発生前 | - | Phase 0: 進捗管理シートに日程追加 |
 | ドラフト中 | 地図を見ながら時間を計算中 | Phase 1 | タイムライン作成、Slack で候補者に提示 |
 | 候補者承認待 | タイムライン提示済み、返答待ち | Phase 1 終 → Phase 2 並行 | Phase 2 のリサーチを並行で進める（承認待ちで止めない） |
 | 詳細詰め | 具体的な駐車位置・地点を特定中 | Phase 2 | mirai-speech-spot-base 確認 → 追加調査 → 現地/Maps 確定 |
