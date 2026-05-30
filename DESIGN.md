@@ -26,6 +26,8 @@
 5. **AI 標準は 2027 年 4 月時点で再判断**。本リポジトリではプロンプトを正本管理し、ランタイム選択は後判断とする。
 6. **mirai-speech-spot-base は UI 操作前提**。API は存在するが本用途では使わない（§4 参照）。
 7. **候補者ごとに前提が異なる**: 演説時間・開始時刻・選挙カー有無・体力などは候補者個別。マニュアル記述は「衆 26 高山候補の値」を絶対視せず、候補者個別ルールと汎用ルールを分離する。
+8. **本マニュアル読者は「演説決め隊」メンバー**: ビギナー向け切り出し（前編 2 ページ）は不要。ビギナー導線は別マニュアル（オプチャ使い方・現場マニュアル等）が担う。本マニュアルはがっつり作業前提でフラット 14 章構成。
+9. **Google Docs が運用上の正本**: チームみらいサポーター内でマニュアルを Docs 形式で格納するルールが整備されており、サポーターの参入障壁低減のため Docs を一次的な参照経路にする。リポジトリ Markdown は開発・履歴管理用バックアップ。
 
 ## 3. AI 経路の方針 — 「Gemini を幹、Claude Code を枝」
 
@@ -125,10 +127,29 @@ team-mirai-speech-logistics/
 | Stage | 内容 |
 |---|---|
 | **Stage 1** | 新リポジトリ初期化（README / DESIGN / CLAUDE.md 雛形、Gem プロンプト取り込み） |
-| **Stage 2** | 知識の構造化（`knowledge/` 現役ルールを埋める、衆 26 ナレッジ Doc の分解配置） |
-| **Stage 3** | プロンプト分割と並列検証（Gemini と Claude Code で実行・出力比較、`docs/validation-log.md` に残す。並列検証評価軸を着手時に確定） |
-| **Stage 4** | マニュアル Doc 起こし（Google Docs に章構成案どおり記述、`team-mirai-manual-lint` の Layer A / B で適合確認） |
+| **Stage 2** | 知識の構造化（`knowledge/` 現役ルールを埋める、衆 26 ナレッジ Doc の分解配置、シートテンプレ規約と Apps Script、選挙カーなし対応たたき台） |
+| **Stage 3** | プロンプト分割と並列検証（Gemini と Claude Code で実行・出力比較、`docs/validation-log.md` に残す） |
+| **Stage 4** | マニュアル Doc 起こし（MANUAL.md → Google Docs → lint Layer A/B → リポジトリ反映） |
 | **Stage 5** | 模擬日程での wet test（2026 年は参院選なし、実選挙での試運転機会がないため模擬で完成判定） |
+
+### Stage 3 と Stage 4 の関係（反復・相互依存）
+
+当初は Stage 3 → Stage 4 の順序を想定していたが、**Stage 3 のテスト実行には Stage 4 のマニュアル Docs が AI のナレッジ参照源として必要** であることが判明（§9 既定方針: Google Docs を運用上の正本）。順序を相互依存に変更:
+
+1. Stage 4 で MANUAL.md → Google Docs を起こす（初版）
+2. Stage 3 で chief-of-staff プロンプトを Docs 参照で実行、`docs/validation-log.md` に結果記録
+3. テスト結果から Docs / プロンプトを修正
+4. Stage 4: lint Layer A / B で適合確認 → Docs / Markdown 同期
+5. Stage 3 ↔ Stage 4 を満たすまで反復
+
+### Stage 4 の作業フロー（ミッションオーナー合意）
+
+1. リポジトリで MANUAL.md を作成（私が起こす）
+2. Google Docs に転記（Drive MCP で create / 手動 のどちらか）
+3. Docs 上で lint プロジェクト Layer A バウンドスクリプトを実行
+4. lint 結果を見て Docs を修正
+5. リント後の Docs 情報をリポジトリ Markdown に反映（私が Drive MCP で取得 → 差分反映）
+6. 完成形が固まったら Docs を運用正本とし、Markdown はバックアップ扱い
 
 ## 7. 検証計画（完成判定）
 
@@ -163,13 +184,20 @@ team-mirai-speech-logistics/
 
 Markdown は lint 検証用ソース・差分管理用に保持し、最終配布形態は Doc。
 
-### 却下案3: 衆 26 ナレッジ Doc 直リンクを Gem プロンプトに残し続ける
+### 却下案3: 衆 26 ナレッジ Doc 直リンクを Gem プロンプトに残し続ける（部分的に再評価し、Google Docs 正本へ）
 
-却下理由:
+当初の却下理由:
 
 - Doc 直リンクはアクセス権限・URL の安定性が運用責任。切れやすい。
 - GitHub raw URL（本リポジトリ `knowledge/*.md`）にすればバージョン管理・差分追跡・複数 AI ランタイム共通参照が可能。
-- 一方、Gemini を幹にする以上、Drive ネイティブ参照の利便性も活かしたい。**最終形は GitHub raw URL を一次正本としつつ、Gemini 用に Drive Doc ミラーも持つハイブリッド**を想定（Stage 3 で実装方針確定）。
+
+**Stage 4 着手時の再評価（採用判断）**:
+
+- サポーターの参入障壁を考慮すると、GitHub raw URL の取り扱いは現実的でない。チームみらい運用は「Docs フォルダにマニュアルを格納するルール」が整備済。
+- 衆 26 ナレッジ Doc 自体は破棄するが、構造を引き継いだ **今期マニュアル Docs を運用上の正本** として運用する。
+- URL 安定性の問題はマニュアル管理ルールで担保する（Doc 削除・移動を行わない、リネームしない等）。
+- リポジトリ Markdown（MANUAL.md および knowledge/*.md）は **開発・履歴管理用バックアップ**。
+- Stage 3 並列検証で「Gemini で Docs 参照、Claude Code で Markdown 参照」の整合性を確認する。
 
 ### 却下案4: mirai-speech-spot-base API 経由で場所選定を自動化
 
@@ -198,6 +226,19 @@ Markdown は lint 検証用ソース・差分管理用に保持し、最終配�
 
 採用案: `knowledge/rules.md` で「法令上の絶対制約」と「候補者ごとに調整する項目」を表で分離。衆 26 値は参考としてのみ記載。
 
+### 却下案7: マニュアル前編を A4 2 ページに収める
+
+GUIDELINES.md §3「全体の構成」の推奨パターンとして「前編 2 ページ / 後編経験者向け」が明示されているが、本マニュアルには適用しない。
+
+却下理由:
+
+- GUIDELINES の趣旨は「ビギナーが気軽に参加できるように、必須内容を切り出す」。
+- 本マニュアル読者は「演説決め隊」メンバー = がっつり作業前提のサポーター。ビギナー単独完結作業は本マニュアルのスコープ内にほぼ存在しない。
+- ビギナー導線は別マニュアル（オプチャ使い方・現場マニュアル等）が担う構造。衆 26 でもこの分業だった。
+- 物理ページ制約を入れると、マニュアル拡張のたびに「2 ページに収めるべきか」の判断負荷が永続発生する。
+
+採用案: フラット 14 章構成、肥大化容認、エンジニア向け補足も同一 Docs に同梱（§5.2）。新規メンバーは §1〜§5 を読めば全体像をつかめる順序にする。
+
 ## 9. 既存資産の引き継ぎ
 
 | 既存資産 | 扱い |
@@ -216,8 +257,8 @@ Markdown は lint 検証用ソース・差分管理用に保持し、最終配�
 - **2027 年 4 月時点の AI 標準**: Stage 3 並列検証で「幹」最終決定（暫定: Gemini）。
 - **公式名義公開の可否**: チームみらい公式名義での公開が可能になるか、サポーター名義（または「演説決め隊」のようなチーム名）に留まるか。Stage 4 入口までに本部と擦り合わせる必要。Doc のフッター作成者表記に影響。
 - **ガイドライン側の更新追随**: `team-mirai-manual-lint/GUIDELINES.md` の `modified_time` を時々確認。
-- **Stage 3 並列検証の評価軸**: 素案を [docs/validation-criteria.md](./docs/validation-criteria.md) に作成済（Stage 3 着手時）。A〜G の評価項目を Gemini / Claude Code 両ランタイムで判定する形。ミッションオーナーレビューで確定する。
 - **engineer-tools の最終スコープ**: 現時点で確実なのは `schedule-build` のみ。他は Stage 3 並列検証で枝タスクが効く局面を確認してから判断。
+- **Docs 運用ルール（Stage 4 完了後）**: マニュアル Docs の格納フォルダ、URL 変更時の通知、編集権限、バージョン管理（Docs 履歴 vs リポジトリ commit）等の運用ルール整備。チームみらい本部と擦り合わせ。
 - **入試情報の運用時要否**: 選挙日程が確定した時点で党判断（本リポジトリには記録のみ保持）。
 - **司令塔シート・スケジュール検討シートのテンプレート Sheet 本体作成**: 規約は [templates/schedule-master.md](./templates/schedule-master.md) と [templates/schedule-detail.md](./templates/schedule-detail.md) に整理済。**Apps Script で自動生成可能**（[engineer-tools/scripts/](./engineer-tools/scripts/)）。ミッションオーナーがスクリプトを実行 → 生成 Sheet URL を templates/*.md 末尾に追記する流れ。Stage 2 後半〜Stage 3 着手前に実施。
 - **司令塔シートのブラッシュアップ**: 衆 26 では運用低調。レビュー結果と AI 連携最適化を [templates/schedule-master.md](./templates/schedule-master.md) に反映済（A 案: 軽量化 + Schedule_Master のみ + メタデータブロック + AI 連携セル + ステータス enum 化）。Apps Script で構造ごと自動生成される。
@@ -235,6 +276,11 @@ Markdown は lint 検証用ソース・差分管理用に保持し、最終配�
 - 同じ場所への複数回演説可否: 候補者の戦略に依存、決め打ちしない（rules.md）
 - 学習塾 100 m・受験会場距離: 過去事例化（past-cases/exam-related-2025.md）
 - knowledge/ ディレクトリ構成: 6 ファイル + past-cases に確定（§5）。road-law-checklist → legal-checklist に改名
+- Stage 3 並列検証の評価軸: 素案を [docs/validation-criteria.md](./docs/validation-criteria.md) に作成済、A〜G の評価項目で判定（Stage 3 着手時）
+- マニュアル章構成: フラット 14 章で確定（§5.2）。前編 / 後編区分は撤廃（§8 却下案7）
+- マニュアル Docs の正本性: Google Docs を運用正本、リポジトリ Markdown は開発・履歴管理用バックアップ（§2, §8 却下案3 再評価）
+- ナレッジ参照のハイブリッド設計: 「Google Docs 正本」で確定。リポジトリ Markdown はバックアップ扱い（§8 却下案3 再評価）
+- Stage 3 と Stage 4 の順序関係: 反復・相互依存に変更（§6）
 
 ## 11. 直近の意思決定履歴（要点のみ）
 
@@ -244,3 +290,7 @@ Markdown は lint 検証用ソース・差分管理用に保持し、最終配�
 - Stage 1 後半判断 — AI 経路の幹を Gemini に確定 / spot-base を UI 操作前提に確定 / マニュアル位置付けをサポーター主導 × 本部後ろ盾・スタンダード共有想定に確定 / 入試情報を過去事例化 / Stage 5 を模擬日程に確定。
 - Stage 2 知識構造化 — 衆 26 ナレッジ Doc を Drive MCP で取得・分解、`knowledge/` 6 ファイル + past-cases を作成。候補者個別ルール（45 分・11 時等）と汎用ルールを分離。`road-law-checklist` → `legal-checklist` に改名。`field-tips.md` 計画を撤回。
 - 選挙カー使用方針を「基本使う / 不使用判断は柔軟に」に再整理。選挙カー無し候補者の存在を明示。
+- Stage 2 後半 — シートテンプレ規約（templates/）、Apps Script による Sheets テンプレ本体生成、選挙カーなし対応たたき台、Stage 3 並列検証評価軸素案、chief-of-staff 改訂版を作成。
+- Stage 4 着手判断 — マニュアル Docs を運用正本とする方針に転換。GitHub raw URL は参入障壁が高くサポーター運用に向かないため、Google Docs を一次的な参照経路とする（§8 却下案3 再評価）。
+- マニュアル章構成のフラット化 — GUIDELINES の前編 / 後編パターンを再評価。本マニュアル読者は「演説決め隊」メンバーでビギナー単独作業がほぼ存在しないため、ビギナー切り出しの 2 ページ構造を撤回。フラット 14 章 + エンジニア向け補足同梱に確定（§8 却下案7）。
+- Stage 3 と Stage 4 の順序関係を反復・相互依存に変更 — Stage 3 のテスト実行に Stage 4 の Docs が必要なため。
