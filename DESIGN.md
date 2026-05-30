@@ -300,6 +300,7 @@ GUIDELINES.md §3「全体の構成」の推奨パターンとして「前編 2 
 - 学習塾 100 m・受験会場距離: 過去事例化（past-cases/exam-related-2025.md）
 - knowledge/ ディレクトリ構成: 6 ファイル + past-cases に確定（§5）。road-law-checklist → legal-checklist に改名
 - Stage 3 並列検証の評価軸: 素案を [docs/validation-criteria.md](./docs/validation-criteria.md) に作成済、A〜G の評価項目で判定（Stage 3 着手時）
+- **Stage 3 並列検証 完了（2026-05-31）**: 3 ランタイム（Gemini Pro / Flash / Claude Code）全合格。失敗パターン 0。詳細は [docs/validation-log.md](./docs/validation-log.md) 実行回 #1。minor improvement（独自数値推論抑制、§8.1 順序明示強化、Read 省略対応）は Stage 5 wet test 後に反映判断
 - マニュアル章構成: フラット 14 章で確定（§5.2）。前編 / 後編区分は撤廃（§8 却下案7）
 - マニュアル Docs の正本性: Google Docs を運用正本、リポジトリ Markdown は開発・履歴管理用バックアップ（§2, §8 却下案3 再評価）
 - ナレッジ参照のハイブリッド設計: 「Google Docs 正本」で確定。リポジトリ Markdown はバックアップ扱い（§8 却下案3 再評価）
@@ -314,6 +315,8 @@ GUIDELINES.md §3「全体の構成」の推奨パターンとして「前編 2 
 - Stage 2 知識構造化 — 衆 26 ナレッジ Doc を Drive MCP で取得・分解、`knowledge/` 6 ファイル + past-cases を作成。候補者個別ルール（45 分・11 時等）と汎用ルールを分離。`road-law-checklist` → `legal-checklist` に改名。`field-tips.md` 計画を撤回。
 - 選挙カー使用方針を「基本使う / 不使用判断は柔軟に」に再整理。選挙カー無し候補者の存在を明示。
 - Stage 2 後半 — シートテンプレ規約（templates/）、Apps Script による Sheets テンプレ本体生成、選挙カーなし対応たたき台、Stage 3 並列検証評価軸素案、chief-of-staff 改訂版を作成。
+- Stage 4 完了（2026-05-31）— MANUAL.md §1〜§14 を起こし、Google Docs に転記（フォルダ `1Fc-...`、Doc `1PSbhWux...`）。lint 反映を経て Markdown 同期。
+- Stage 3 完了（2026-05-31）— 3 ランタイム並列検証で全合格判定。Gemini Pro / Flash は Doc ネイティブ引用が機能、Claude Code はプロンプト内化で応答（ツール実読省略は実運用での改善余地）。
 - Stage 4 着手判断 — マニュアル Docs を運用正本とする方針に転換。GitHub raw URL は参入障壁が高くサポーター運用に向かないため、Google Docs を一次的な参照経路とする（§8 却下案3 再評価）。
 - マニュアル章構成のフラット化 — GUIDELINES の前編 / 後編パターンを再評価。本マニュアル読者は「演説決め隊」メンバーでビギナー単独作業がほぼ存在しないため、ビギナー切り出しの 2 ページ構造を撤回。フラット 14 章 + エンジニア向け補足同梱に確定（§8 却下案7）。
 - Stage 3 と Stage 4 の順序関係を反復・相互依存に変更 — Stage 3 のテスト実行に Stage 4 の Docs が必要なため。
